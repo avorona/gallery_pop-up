@@ -1,0 +1,5 @@
+ProjectTitle: gallery-popup
+
+PageList:
+- file: page.html
+  ready: 50
