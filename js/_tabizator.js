@@ -14,12 +14,12 @@ export default class Tabizator {
       all: [].slice.call(document.querySelectorAll(settings.content)),
 
     };
-    this._init();
+    // this.init();
 
   }
 
-  _init() {
- 
+  init() {
+    console.log('hey, i am tabs');
     this._bindEvents();
     this._onPageLoad();
 
@@ -150,10 +150,7 @@ export default class Tabizator {
     let content=self.content.all;
     let hash =window.location.hash.replace('#','');
     
-    // console.log(content);
-    // console.log(hash);
 
-    
     content.forEach(e => {
       e.classList.remove('is-active');
     });
