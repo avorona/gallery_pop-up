@@ -1,4 +1,4 @@
-
+import sliderContent from './knights.json';
 
 export default class Slider {
 
@@ -6,6 +6,9 @@ export default class Slider {
 
     this.config=settings;
     this.wrap=name;
+    this.content={
+      base: sliderContent
+    };
 
   }
 
@@ -14,25 +17,47 @@ export default class Slider {
   init() {
     console.log('hey');
 
-    this._shpottle();
-    // this._throttle();
-    // this._fetchData();
-
+    //  *************** fetch Data with AJAX request
+    this._buildSlider();
+ 
   }
 
-  _shpottle() {
 
-    let content = document.createElement('div');
-    content.classList.add('js-content');
-    content.setAttribute('data-content', 'zatoichi');
-    let wrap = document.querySelector('.js-content-wrap');
+  _buildSlider() {
 
-    wrap.appendChild(content);
-    console.log(wrap);
+    let wrap = document.querySelector(this.wrap);
+    let sliderBase=this.content.base;
 
-    this._throttle();
+    // console.log(sliderBase);
+
+    sliderBase.forEach(el => {
+      
+      let slidesData = el.slides;
+      // console.log(slidesData);
+
+      let slider = document.createElement('div');
+      slider.classList.add('c-slider', `c-slider_${el.name}`, 'js-content');
+      slider.setAttribute('data-content', el.name);
+      let list = document.createElement('ul');
+      list.classList.add('c-slider-list');
+
+      slidesData.forEach(e => {
+        
+        let item = document.createElement('li');
+        item.classList.add('c-slider-item');
+
+        list.appendChild(item);
+
+        slider.appendChild(list);
+
+        wrap.appendChild(slider);
+
+      });
 
 
+
+
+    });
 
 
   }

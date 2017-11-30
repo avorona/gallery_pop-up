@@ -99,17 +99,25 @@ export default class Tabizator {
 
     });
     
+    let t;
+
     if (target) {
-      self.tabs.current = target;
-      all.forEach(el => {
-        el.classList.remove('is-active');
-      });
-      target.classList.add('is-active');
+
+      t=target;
+      self.tabs.current = t;
 
     } else {
-     
-      return false;
+
+      t = all[0];
+      console.log(t);
     }
+
+
+    all.forEach(el => {
+      el.classList.remove('is-active');
+    });
+
+    t.classList.add('is-active');
    
   }
 
@@ -160,7 +168,7 @@ export default class Tabizator {
     if (hash) {
 
       let current = content.find(el => {
-        // console.log(el);
+        console.log(el);
         if (el.getAttribute('data-content') === hash) return el;
       });
 
@@ -168,12 +176,10 @@ export default class Tabizator {
 
     } else {
 
-      let ph = content.find(el => {
-        // console.log(el);
-        if (el.getAttribute('data-content') === 'ph') return el;
-      });
+      let first = content[0];
 
-      ph.classList.add('is-active');
+      first.classList.add('is-active');
+
 
     }
     

@@ -15,17 +15,7 @@ class App {
 
   run() {
 
-    // replace tjis callback hell with promises
-
-    
-    // this._initSlider().then(function(result) {
-    //   return this._initTabs(result);
-    // })
-    //   .then(function(newResult) {
-    //     return this._initPopup(newResult);
-    //   })
-    //   .catch(failureCallback);
-
+    // ******************replace this with promises
 
 
     this._initSlider();
