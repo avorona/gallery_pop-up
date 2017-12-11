@@ -1,0 +1,30 @@
+
+{% raw %}
+
+<script type="text/html" id="slideItemTemplate">
+
+  <div class="c-slide">
+ <div class="c-slide__img" style="background-image: url(img/{{img}});"></div>
+    <div class="c-slide__inner">
+     
+      <h3 class="c-slide__heading">{{title}}</h3>
+      <div class="c-slide__descr">
+        <p>{{descr}}</p>
+
+      </div>
+              <div class="c-slide__date">
+          <p>{{metadata}}</p>
+        </div>
+
+    </div>
+
+<div class="c-slide__footer">
+<button class="show-more-btn" data-popup-data="{{id}}" > More</button>
+</div>
+  </div>
+
+
+</script>
+
+
+{% endraw %}

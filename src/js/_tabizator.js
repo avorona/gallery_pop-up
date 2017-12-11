@@ -19,7 +19,7 @@ export default class Tabizator {
   }
 
   init() {
-    console.log('hey, i am tabs');
+    // console.log('hey, i am tabs');
     this._bindEvents();
     this._onPageLoad();
 
@@ -109,7 +109,7 @@ export default class Tabizator {
     } else {
 
       t = all[0];
-      console.log(t);
+      // console.log(t);
     }
 
 
@@ -168,7 +168,7 @@ export default class Tabizator {
     if (hash) {
 
       let current = content.find(el => {
-        console.log(el);
+        // console.log(el);
         if (el.getAttribute('data-content') === hash) return el;
       });
 
