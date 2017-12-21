@@ -1,7 +1,7 @@
 import Tabizator from './_tabizator';
 import Slider from './_slider';
 import Popup from './_popup';
-
+import sliderContent from './knights.json';
 
 
 
@@ -29,11 +29,14 @@ class App {
 
   _initSlider() {
 
-    let slider = new Slider(this.config.slider, {
+    sliderContent.forEach(data => {
+      let slider = new Slider(this.config.slider, {
+        dataItem: data
 
-
+      });
+      slider.init();
     });
-    slider.init();
+
   }
 
   _initTabs() {

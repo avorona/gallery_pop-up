@@ -93,7 +93,7 @@ export default class Tabizator {
     let hash = window.location.hash.replace('#', '');
     let all = self.tabs.all;
 
-    let target = all.find(el => {
+    let target = self.tabs.all.find(el => {
     
       if (el.getAttribute('data-href') === hash) return el;
 
@@ -108,12 +108,12 @@ export default class Tabizator {
 
     } else {
 
-      t = all[0];
+      t = self.tabs.all[0];
       // console.log(t);
     }
 
 
-    all.forEach(el => {
+    self.tabs.all.forEach(el => {
       el.classList.remove('is-active');
     });
 

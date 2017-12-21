@@ -43,6 +43,7 @@ body
 
 .heroes
 	&__item
+		position: relative
 		min-height: 600px
 		max-width: 620px
 		margin: 25px auto
@@ -52,25 +53,27 @@ body
 	min-height: 600px
 	border-radius: 3px
 	font-family: monospace
-	overflow: hidden
 	position: relative
+	padding-top: 25px
 	&.is-active
-		display: block
+		display: flex
 	&_kichot
 		background-color: #fefeaa
 	&_zatoichi
 		background-color: #aafefe
+	&__wrap
+		overflow: hidden
+		position: relative
 	&__list
 		+tr(all 0.4s ease-in-out)
-		position: absolute
-		+center(vertical)
-		transform: translate3D(0px, -50%,0)
+		transform: translateX(0px)
 		width: 2000px	
+		margin: auto
 		overflow: hidden
 	&__item
 		display: inline-block
 		width: 250px
-		margin: 25px 30px
+		margin: 0px 30px
 		
 
 	.c-slide
@@ -96,6 +99,20 @@ body
 			width: 100%
 			height: 250px
 			+cover
+	
+		&__controll
+			position: absolute
+			display: block
+			background-color: transparent
+			z-index: 10000
+			&_prev
+				left: -40px
+				+arr(19,30,#325be9,l)
+				+center(vertical)
+			&_next
+				right: -40px
+				+arr(19,30,#325be9,r)
+				+center(vertical)
 		&__footer
 			position: absolute
 			width: 100%

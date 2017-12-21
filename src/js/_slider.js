@@ -1,17 +1,18 @@
-import sliderContent from './knights.json';
+
 
 export default class Slider {
 
   constructor(name, settings) {
 
     this.config=settings;
-    this.wrap=name;
-    this.content={
-      base: sliderContent
-    };
+    this.wrap = document.querySelector(name);
     this.slider={
-      currentSlide: 1
+      base: [],
+      list:[],
+      items: [],
+      currentSlide: 0
     };
+    this.dataItem=this.config.dataItem;
 
   }
 
@@ -29,49 +30,56 @@ export default class Slider {
   _buildSlider() {
 
     let self=this;
-    let wrap = document.querySelector(this.wrap);
-    let sliderBase=this.content.base;
+    let dataForSliderItem=this.dataItem;
+    
 
-    // console.log(sliderBase);
-
-    sliderBase.forEach(el => {
+ 
       
-      let slidesData = el.slides;
-      // console.log(slidesData);
+    let slidesData = dataForSliderItem.slides;
+    // console.log(slidesData);
 
-      let slider = document.createElement('div');
-      slider.setAttribute('class','c-slider js-content');
-      slider.classList.add(`c-slider_${el.name}`);
-      slider.setAttribute('data-content', el.name);
+    let slider = document.createElement('div');
+    slider.setAttribute('class','c-slider js-content');
+    slider.classList.add(`c-slider_${dataForSliderItem.name}`);
+    slider.setAttribute('data-content', dataForSliderItem.name);
 
-      let list = document.createElement('ul');
-      list.classList.add('c-slider__list');
+    self.slider.base=slider; 
 
-      slidesData.forEach((dataSet,dataIndex) => {
+    let sliderWrap=document.createElement('div');
+    sliderWrap.classList.add('c-slider__wrap');
+    slider.appendChild(sliderWrap);
+
+
+    let list = document.createElement('ul');
+    list.classList.add('c-slider__list');
+    self.slider.list=list; 
+
+    slidesData.forEach((dataSet,dataIndex) => {
         
-        let item = document.createElement('li');
-        item.setAttribute('class', ' c-slider__item js-c-slideItem');
-        item.setAttribute('data-slide-index', `${dataSet.id}`);  
-        list.appendChild(item);
+      let item = document.createElement('li');
+      item.setAttribute('class', ' c-slider__item js-c-slideItem');
+      item.setAttribute('data-slide-index', dataIndex);  
+      list.appendChild(item);
 
-        slider.appendChild(list);
+      self.slider.items.push(item);
 
-        wrap.appendChild(slider);
+      sliderWrap.appendChild(list);
 
-        let itemTemplate = document.querySelector('#slideItemTemplate').innerHTML;
-        let thisItemData = slidesData[dataIndex];
+      self.wrap.appendChild(slider);
 
-        let itemInner = self._getHTMLFromMicroTemplate(itemTemplate, thisItemData);
-        item.innerHTML = itemInner;
+      let itemTemplate = document.querySelector('#slideItemTemplate').innerHTML;
+      let thisItemData = slidesData[dataIndex];
 
-          
-      });
-
-      self._addNavigation(slider);
-      // init visibility on first c-slide item
-      self._changeVisibleSlide();
-
+      let itemInner = self._getHTMLFromMicroTemplate(itemTemplate, thisItemData);
+      item.innerHTML = itemInner;
+      
     });
+
+    self._addNavigation();
+    // init visibility on first c-slide item
+    self._changeVisibleSlide();
+
+   
 
   }
 
@@ -90,21 +98,26 @@ export default class Slider {
   }
 
 
-  _addNavigation(wrap) {
+  _addNavigation() {
 
     let self=this;
     let prevBtn=document.createElement('button');
     prevBtn.setAttribute('class', 'c-slide__controll c-slide__controll_prev js-prev-slide');
+    self.slider.base.appendChild(prevBtn);
 
     let nextBtn = document.createElement('button');
     nextBtn.setAttribute('class', 'c-slide__controll c-slide__controll_next js-next-slide');
+    self.slider.base.appendChild(nextBtn);
 
+        
     prevBtn.addEventListener('click', function(e) {
+      
       self.slider.currentSlide-=1;
       self._changeVisibleSlide();
     });
 
     nextBtn.addEventListener('click', function(e) {
+     
       self.slider.currentSlide += 1;
       self._changeVisibleSlide();
     });
@@ -115,12 +128,26 @@ export default class Slider {
 
     let currentSlideIndex=''+this.slider.currentSlide;
 
+
+    let slides = this.slider.items;
+    // console.log(this.slider.items, this.slider.currentSlide);
+    slides.forEach(btn => {btn.classList.remove('is-current');});
     
-    let slides = [].slice.call(document.querySelectorAll('.js-c-slideItem'));
-    
+    if (currentSlideIndex >= slides.length) {
+      this.slider.currentSlide=0;
+      currentSlideIndex='0';
+    } else if (currentSlideIndex < 0) {
+      
+      this.slider.currentSlide = slides.length - 1;
+      currentSlideIndex = '' + this.slider.currentSlide;
+
+    }
+
     let currentSlide=slides.find(el => {
+
       if (el.getAttribute('data-slide-index') === currentSlideIndex) return el;
     });
+
 
     
     currentSlide.classList.add('is-current');
