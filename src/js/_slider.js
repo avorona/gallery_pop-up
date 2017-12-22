@@ -1,4 +1,4 @@
-
+import $ from 'jquery';
 
 export default class Slider {
 
@@ -8,15 +8,25 @@ export default class Slider {
     this.wrap = document.querySelector(name);
     this.slider={
       base: [],
+      wrap: [],
       list:[],
       items: [],
-      currentSlide: 0
+      currentSlide: 0,
+      sliding: 0,
+      startClientX: 0,
+      startPixelOffset: 0,
+      pixelOffset: 0,
+      
     };
     this.dataItem=this.config.dataItem;
 
   }
 
 
+  get _slideCount() {
+    console.log(this.slider.list.length);
+    return this.slider.list.length;
+  }
 
   init() {
     // console.log('hey');
@@ -48,6 +58,7 @@ export default class Slider {
     let sliderWrap=document.createElement('div');
     sliderWrap.classList.add('c-slider__wrap');
     slider.appendChild(sliderWrap);
+    self.slider.wrap=sliderWrap;
 
 
     let list = document.createElement('ul');
@@ -77,7 +88,7 @@ export default class Slider {
 
     self._addNavigation();
     // init visibility on first c-slide item
-    self._changeVisibleSlide();
+    // self._changeVisibleSlide();
 
    
 
@@ -113,49 +124,119 @@ export default class Slider {
     prevBtn.addEventListener('click', function(e) {
       
       self.slider.currentSlide-=1;
-      self._changeVisibleSlide();
+      // self._changeVisibleSlide();
     });
 
     nextBtn.addEventListener('click', function(e) {
      
       self.slider.currentSlide += 1;
-      self._changeVisibleSlide();
+      // self._changeVisibleSlide();
     });
+    self._sliding();
+  }
+
+  _sliding() {
+
+    let self=this;
+   
+    let dragTarget = self.slider.wrap;
+    
+    ['mousedown', 'touchstart'].forEach(event => {
+      dragTarget.addEventListener(event, self._slideStart.bind(self));
+    });
+    ['mouseup', 'touchend'].forEach(event => {
+      dragTarget.addEventListener(event, self._slideEnd.bind(self));
+    });
+    ['mousemove','touchmove'].forEach(event => {
+      dragTarget.addEventListener(event, self._slide.bind(self));
+    });
+    
+
 
   }
 
-  _changeVisibleSlide() {
-
-    let currentSlideIndex=''+this.slider.currentSlide;
-
-
-    let slides = this.slider.items;
-    // console.log(this.slider.items, this.slider.currentSlide);
-    slides.forEach(btn => {btn.classList.remove('is-current');});
+  /**
+      / Triggers when slide event started
+      */
+  _slideStart(event) {
     
-    if (currentSlideIndex >= slides.length) {
-      this.slider.currentSlide=0;
-      currentSlideIndex='0';
-    } else if (currentSlideIndex < 0) {
-      
-      this.slider.currentSlide = slides.length - 1;
-      currentSlideIndex = '' + this.slider.currentSlide;
-
+    let self=this;
+    
+    // If it is mobile device redefine event to first touch point
+    if (event.touches)
+      event = event.touches[0];
+    // If sliding not started yet store current touch position to calculate distance in future.
+    if (self.slider.sliding === 0) {
+      self.slider.sliding = 1; // Status 1 = slide started.
+      self.slider.startClientX = event.clientX;
+    }
+  }
+  /** Occurs when image is being slid.
+      */
+  _slide(event) {
+   
+    let self=this;
+    // console.log(self._slideCount );
+    event.preventDefault();
+    if (event.touches)
+      event = event.touches[0];
+    // Distance of slide.
+    let deltaSlide = event.clientX - self.slider.startClientX;
+    // If sliding started first time and there was a distance.
+    if (self.slider.sliding === 1 && deltaSlide !== 0) {
+      self.slider.sliding = 2; // Set status to 'actually moving'
+      self.slider.startPixelOffset = self.slider.pixelOffset; // Store current offset
     }
 
-    let currentSlide=slides.find(el => {
+    //  When user move image
+    if (self.slider.sliding === 2) {
+      // Means that user slide 1 pixel for every 1 pixel of mouse movement.
+      let touchPixelRatio = 1;
+      // Check for user doesn't slide out of boundaries
+      if ((self.slider.currentSlide === 0 && event.clientX > self.slider.startClientX) ||
+        (self.slider.currentSlide === self._slideCount - 1 && event.clientX < self.slider.startClientX))
+        // Set ratio to 3 means image will be moving by 3 pixels each time user moves it's pointer by 1 pixel. (Rubber-band effect)
+        touchPixelRatio = 3;
+      // Calculate move distance.
+      self.slider.pixelOffset = self.slider.startPixelOffset + deltaSlide / touchPixelRatio;
+      // Apply moving and remove animation class
+      
+      self.slider.list.style=`transform : translateX(${self.slider.pixelOffset}px)`;
+    }
+  }
 
-      if (el.getAttribute('data-slide-index') === currentSlideIndex) return el;
-    });
-
-
+  /** When user release pointer finish slide moving.
+      */
+  _slideEnd(event) {
+    let self=this;
     
-    currentSlide.classList.add('is-current');
+    if (self.slider.sliding === 2) {
+      // Reset sliding.
+      self.slider.sliding = 0;
+      // Calculate which slide need to be in view.
+      self.slider.currentSlide = self.slider.pixelOffset < self.slider.startPixelOffset ? self.slider.currentSlide + 1 : self.slider.currentSlide - 1;
+      
+      // Make sure that unexisting slides weren't selected.
+      console.log(self.slider.currentSlide, self._slideCount);
+      self.slider.currentSlide = Math.min(Math.max(self.slider.currentSlide, 0), self._slideCount - 1);
+      // Since in this example slide is full viewport width offset can be calculated according to it.
+      
+      self.slider.pixelOffset = self.slider.currentSlide * -$('.c-slider').width();
+      // Remove style from DOM (look below)
+      $('#temp').remove();  
+      // Add a translate rule dynamically and asign id to it
+      $('<style id="temp">.c-slider__list.animate{transform:translateX(' + self.slider.pixelOffset + 'px)}</style>').appendTo('head');
+      // Add animate class to slider and reset transform prop of this class.
+      self.slider.list.classList.add('animate');
+      self.slider.style='transform="")';
+    }
+  }
+
     
    
 
 
-  }
+  
 
 
 }
