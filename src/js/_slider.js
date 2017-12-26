@@ -11,6 +11,11 @@ export default class Slider {
       wrap: [],
       list:[],
       items: [],
+      itemWidth:0,
+      gap:0,
+      itemVisible:2,
+
+      listWidth:0,
       currentSlide: 0,
       sliding: 0,
       startClientX: 0,
@@ -24,8 +29,8 @@ export default class Slider {
 
 
   get _slideCount() {
-    console.log(this.slider.list.length);
-    return this.slider.list.length;
+  
+    return this.slider.items.length;
   }
 
   init() {
@@ -64,20 +69,31 @@ export default class Slider {
     let list = document.createElement('ul');
     list.classList.add('c-slider__list');
     self.slider.list=list; 
+    
+
 
     slidesData.forEach((dataSet,dataIndex) => {
         
       let item = document.createElement('li');
       item.setAttribute('class', ' c-slider__item js-c-slideItem');
+      self.slider.itemWidth =250;
+
+      item.style.width = `${self.slider.itemWidth}px`;
+
+
+     
       item.setAttribute('data-slide-index', dataIndex);  
       list.appendChild(item);
 
       self.slider.items.push(item);
 
       sliderWrap.appendChild(list);
+    
+
+
 
       self.wrap.appendChild(slider);
-
+      // using mico-templating technic to generate slider item
       let itemTemplate = document.querySelector('#slideItemTemplate').innerHTML;
       let thisItemData = slidesData[dataIndex];
 
@@ -85,6 +101,34 @@ export default class Slider {
       item.innerHTML = itemInner;
       
     });
+
+    self.slider.gap = 30;
+
+
+    let gap = 30;
+    let length = self.slider.items.length;
+    let width = self.slider.itemWidth;
+    let listAbsoluteWidth = length * (+width) + (gap * 2 * length);
+
+
+    list.style.width = listAbsoluteWidth + 'px';
+
+
+    self.slider.listWidth = listAbsoluteWidth;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     self._addNavigation();
     // init visibility on first c-slide item
@@ -171,8 +215,7 @@ export default class Slider {
       self.slider.startClientX = event.clientX;
     }
   }
-  /** Occurs when image is being slid.
-      */
+  /** Occurs when image is being slide. **/
   _slide(event) {
    
     let self=this;
@@ -200,8 +243,32 @@ export default class Slider {
       // Calculate move distance.
       self.slider.pixelOffset = self.slider.startPixelOffset + deltaSlide / touchPixelRatio;
       // Apply moving and remove animation class
-      
-      self.slider.list.style=`transform : translateX(${self.slider.pixelOffset}px)`;
+      // console.log(event.clientX, self.slider.startClientX,self.slider.pixelOffset);
+
+
+      // slide to last positions when user slide out of boundries
+      let visible = self.slider.itemVisible;
+      let absoluteWidth = self.slider.listWidth;
+      let gap = self.slider.gap;
+      let itemWidth = self.slider.itemWidth;
+
+      // handle slide out to left
+
+      if ( self.slider.pixelOffset > 50 ) {
+
+        self.slider.pixelOffset = 0;
+        console.log(self.slider.pixelOffset);
+
+        // handle slide out to right
+      } else if ((Math.abs(self.slider.pixelOffset)) > (self.slider.listWidth)) {
+
+        self.slider.pixelOffset = -absoluteWidth + visible * itemWidth + (gap * 4);
+
+      }
+      self.slider.list.style.transform = `translateX(${self.slider.pixelOffset}px)`;
+
+
+
     }
   }
 
@@ -217,10 +284,11 @@ export default class Slider {
       self.slider.currentSlide = self.slider.pixelOffset < self.slider.startPixelOffset ? self.slider.currentSlide + 1 : self.slider.currentSlide - 1;
       
       // Make sure that unexisting slides weren't selected.
-      console.log(self.slider.currentSlide, self._slideCount);
+      // console.log(self.slider.currentSlide, self._slideCount);
       self.slider.currentSlide = Math.min(Math.max(self.slider.currentSlide, 0), self._slideCount - 1);
-      // Since in this example slide is full viewport width offset can be calculated according to it.
-      
+      console.log(self.slider.currentSlide, self.slider.pixelOffset);
+
+
       self.slider.pixelOffset = self.slider.currentSlide * -$('.c-slider').width();
       // Remove style from DOM (look below)
       $('#temp').remove();  
