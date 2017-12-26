@@ -8,6 +8,7 @@ export default class Slider {
     this.wrap = document.querySelector(name);
     this.slider={
       base: [],
+      baseWidth: 620,
       wrap: [],
       list:[],
       items: [],
@@ -57,8 +58,9 @@ export default class Slider {
     slider.setAttribute('class','c-slider js-content');
     slider.classList.add(`c-slider_${dataForSliderItem.name}`);
     slider.setAttribute('data-content', dataForSliderItem.name);
-
-    self.slider.base=slider; 
+    slider.style.width = `${self.slider.baseWidth}px`;
+    self.slider.base=slider;
+   
 
     let sliderWrap=document.createElement('div');
     sliderWrap.classList.add('c-slider__wrap');
@@ -112,23 +114,10 @@ export default class Slider {
 
 
     list.style.width = listAbsoluteWidth + 'px';
-
-
     self.slider.listWidth = listAbsoluteWidth;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+    self.slider.width = self.slider.baseWidth;
+  
 
     self._addNavigation();
     // init visibility on first c-slide item
@@ -166,14 +155,16 @@ export default class Slider {
 
         
     prevBtn.addEventListener('click', function(e) {
-      
+          
       self.slider.currentSlide-=1;
+      self._slide(e);
       // self._changeVisibleSlide();
     });
 
     nextBtn.addEventListener('click', function(e) {
-     
+  
       self.slider.currentSlide += 1;
+      self._slide(e);
       // self._changeVisibleSlide();
     });
     self._sliding();
@@ -223,12 +214,33 @@ export default class Slider {
     event.preventDefault();
     if (event.touches)
       event = event.touches[0];
+    
+
     // Distance of slide.
-    let deltaSlide = event.clientX - self.slider.startClientX;
+    let deltaSlide;
+    if (event.type === 'click') {
+      self.slider.sliding = 1; // Status 1 = slide started.
+      self.slider.startClientX = event.clientX;
+      
+      if (event.clientX > self.slider.baseWidth) {
+        
+        deltaSlide = -self.slider.baseWidth ;
+      } else if (event.clientX < self.slider.baseWidth) {
+        deltaSlide = self.slider.baseWidth;
+      }
+    
+    } else {
+      deltaSlide = event.clientX - self.slider.startClientX;
+    }
+
+
+    console.log(event.clientX, self.slider.baseWidth,deltaSlide);
+    // console.log(deltaSlide);
     // If sliding started first time and there was a distance.
     if (self.slider.sliding === 1 && deltaSlide !== 0) {
       self.slider.sliding = 2; // Set status to 'actually moving'
       self.slider.startPixelOffset = self.slider.pixelOffset; // Store current offset
+
     }
 
     //  When user move image
@@ -254,13 +266,11 @@ export default class Slider {
 
       // handle slide out to left
 
-      if ( self.slider.pixelOffset > 50 ) {
-
+      if (self.slider.pixelOffset > gap) {
         self.slider.pixelOffset = 0;
-        console.log(self.slider.pixelOffset);
 
         // handle slide out to right
-      } else if ((Math.abs(self.slider.pixelOffset)) > (self.slider.listWidth)) {
+      } else if ((Math.abs(self.slider.pixelOffset)) >= (self.slider.listWidth)) {
 
         self.slider.pixelOffset = -absoluteWidth + visible * itemWidth + (gap * 4);
 
@@ -286,17 +296,23 @@ export default class Slider {
       // Make sure that unexisting slides weren't selected.
       // console.log(self.slider.currentSlide, self._slideCount);
       self.slider.currentSlide = Math.min(Math.max(self.slider.currentSlide, 0), self._slideCount - 1);
-      console.log(self.slider.currentSlide, self.slider.pixelOffset);
-
-
       self.slider.pixelOffset = self.slider.currentSlide * -$('.c-slider').width();
+  
       // Remove style from DOM (look below)
       $('#temp').remove();  
       // Add a translate rule dynamically and asign id to it
       $('<style id="temp">.c-slider__list.animate{transform:translateX(' + self.slider.pixelOffset + 'px)}</style>').appendTo('head');
       // Add animate class to slider and reset transform prop of this class.
       self.slider.list.classList.add('animate');
-      self.slider.style='transform="")';
+
+      if (Math.abs(self.slider.pixelOffset) < self.slider.listWidth) { 
+      
+
+        self.slider.list.style.transform = `translateX(${self.slider.pixelOffset}px)`;
+
+      }
+
+
     }
   }
 
