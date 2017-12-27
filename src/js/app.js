@@ -10,7 +10,11 @@ class App {
   constructor(settings) {
 
     this.config = settings;
-
+    // this.sliders=[];
+    this.popup={
+      trigger:[],
+      object:[]
+    };
   }
 
   run() {
@@ -19,23 +23,31 @@ class App {
 
 
     this._initSlider();
-
+  
     this._initTabs();
-
-    this._initPopup();
+  
+    // this._initPopup();
+    
+    this._bindEvents();
 
   }
 
 
   _initSlider() {
 
+    let self=this;
+
     sliderContent.forEach(data => {
       let slider = new Slider(this.config.slider, {
-        dataItem: data
+        dataItem: data,
+        keyname: data['name']
 
       });
       slider.init();
+    
     });
+
+   
 
   }
 
@@ -51,16 +63,42 @@ class App {
     taba.init();
   }
 
-  _initPopup() {
+  _bindEvents() {
 
-    let popup = new Popup();
+    let self=this;
+    let closeTrigger = document.querySelectorAll('.js-close-popup');
+    self.popup.trigger = document.querySelectorAll('.js-open-popup');
+
+    self.popup.trigger.forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        let configId = e.currentTarget.getAttribute('data-popup-config');
+        let configName = e.currentTarget.getAttribute('data-keyname');
+        self._generatePopup(configId, configName);
+      });
+    });
+
+    closeTrigger.forEach(trigger => {
+      trigger.addEventListener('click', function(e) {
+        self.popup.object.kill();
+      });
+    });
+
+  
+  }
+
+  _generatePopup(Id, name) {
+
+    console.log(Id, name);
+    let popup = new Popup( {
+      onItem: Id,
+      onWrapper: name
+    });
     popup.init();
-
+    this.popup.object = popup;
+ 
   }
 
-  kill() {
 
-  }
 
 }
 

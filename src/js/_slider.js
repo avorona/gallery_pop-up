@@ -1,5 +1,5 @@
 import $ from 'jquery';
-
+import { microTemplating} from './_helpers';
 export default class Slider {
 
   constructor(name, settings) {
@@ -7,6 +7,7 @@ export default class Slider {
     this.config=settings;
     this.wrap = document.querySelector(name);
     this.slider={
+      
       base: [],
       baseWidth: 620,
       wrap: [],
@@ -15,7 +16,6 @@ export default class Slider {
       itemWidth:0,
       gap:0,
       itemVisible:2,
-      asd
       listWidth:0,
       currentSlide: 0,
       sliding: 0,
@@ -28,10 +28,13 @@ export default class Slider {
 
   }
 
-
   get _slideCount() {
   
     return this.slider.items.length;
+  }
+
+  get _sliderKeyName() {
+    return this.config.keyName; 
   }
 
   init() {
@@ -46,13 +49,9 @@ export default class Slider {
   _buildSlider() {
 
     let self=this;
-    let dataForSliderItem=this.dataItem;
-    
-
- 
-      
+    let dataForSliderItem=this.dataItem;   
     let slidesData = dataForSliderItem.slides;
-    // console.log(slidesData);
+  
 
     let slider = document.createElement('div');
     slider.setAttribute('class','c-slider js-content');
@@ -61,37 +60,28 @@ export default class Slider {
     slider.style.width = `${self.slider.baseWidth}px`;
     self.slider.base=slider;
    
-
     let sliderWrap=document.createElement('div');
     sliderWrap.classList.add('c-slider__wrap');
     slider.appendChild(sliderWrap);
     self.slider.wrap=sliderWrap;
-
 
     let list = document.createElement('ul');
     list.classList.add('c-slider__list');
     self.slider.list=list; 
     
 
-
     slidesData.forEach((dataSet,dataIndex) => {
         
       let item = document.createElement('li');
       item.setAttribute('class', ' c-slider__item js-c-slideItem');
       self.slider.itemWidth =250;
-
       item.style.width = `${self.slider.itemWidth}px`;
-
-
-     
       item.setAttribute('data-slide-index', dataIndex);  
+      
+
       list.appendChild(item);
-
       self.slider.items.push(item);
-
       sliderWrap.appendChild(list);
-    
-
 
 
       self.wrap.appendChild(slider);
@@ -99,16 +89,15 @@ export default class Slider {
       let itemTemplate = document.querySelector('#slideItemTemplate').innerHTML;
       let thisItemData = slidesData[dataIndex];
 
-      let itemInner = self._getHTMLFromMicroTemplate(itemTemplate, thisItemData);
+      let itemInner = microTemplating(itemTemplate, thisItemData);
       item.innerHTML = itemInner;
       
     });
 
     self.slider.gap = 30;
 
-
-    let gap = 30;
-    let length = self.slider.items.length;
+    let gap = self.slider.gap;
+    let length = self._slideCount;
     let width = self.slider.itemWidth;
     let listAbsoluteWidth = length * (+width) + (gap * 2 * length);
 
@@ -123,23 +112,12 @@ export default class Slider {
     // init visibility on first c-slide item
     // self._changeVisibleSlide();
 
-   
+    self._bindDragEvents();
+
+
 
   }
 
-  // micro templating, sort-of
-  _getHTMLFromMicroTemplate(src, data) {
-    // replace {{tags}} in source
-    return src.replace(/\{\{([\w\-_\.]+)\}\}/gi, function(match, key) {
-      // walk through objects to get value
-      var value = data;
-      key.split('.').forEach(function(part) {
-        // console.log(value);
-        value = value[part];
-      });
-      return value;
-    }); 
-  }
 
 
   _addNavigation() {
@@ -153,40 +131,58 @@ export default class Slider {
     nextBtn.setAttribute('class', 'c-slide__controll c-slide__controll_next js-next-slide');
     self.slider.base.appendChild(nextBtn);
 
-        
-    prevBtn.addEventListener('click', function(e) {
-          
-      self.slider.currentSlide-=1;
-      self._slide(e);
-      // self._changeVisibleSlide();
-    });
-
-    nextBtn.addEventListener('click', function(e) {
-  
-      self.slider.currentSlide += 1;
-      self._slide(e);
-      // self._changeVisibleSlide();
-    });
-    self._sliding();
+    this._clickToNextSlide(nextBtn);
+    this._clickToPrevSlide(prevBtn);
+    
   }
 
-  _sliding() {
+
+  //
+  _clickToNextSlide(nextSlideTrigger) {
+    let self = this;
+
+    nextSlideTrigger.addEventListener('click', function(e) {
+      self.slider.currentSlide += 1;
+      self._slide(e);
+    });
+   
+  }
+
+  _clickToPrevSlide(prevSlideTrigger) {
+    let self=this;
+    prevSlideTrigger.addEventListener('click', function(e) {
+      self.slider.currentSlide -= 1;
+      self._slide(e);
+    });
+  }
+
+
+  _dragToMoveSlides(target) {
+    let self=this;
+
+    ['mousedown', 'touchstart'].forEach(event => {
+      target.addEventListener(event, self._slideStart.bind(self));
+
+    });
+    ['mouseup', 'touchend'].forEach(event => {
+      target.addEventListener(event, self._slideEnd.bind(self));
+
+    });
+    ['mousemove', 'touchmove'].forEach(event => {
+      target.addEventListener(event, self._slide.bind(self));
+
+    });
+
+  }
+
+
+  _bindDragEvents() {
 
     let self=this;
    
     let dragTarget = self.slider.wrap;
     
-    ['mousedown', 'touchstart'].forEach(event => {
-      dragTarget.addEventListener(event, self._slideStart.bind(self));
-    });
-    ['mouseup', 'touchend'].forEach(event => {
-      dragTarget.addEventListener(event, self._slideEnd.bind(self));
-    });
-    ['mousemove','touchmove'].forEach(event => {
-      dragTarget.addEventListener(event, self._slide.bind(self));
-    });
-    
-
+    self._dragToMoveSlides(dragTarget);
 
   }
 
@@ -233,8 +229,6 @@ export default class Slider {
       deltaSlide = event.clientX - self.slider.startClientX;
     }
 
-
-    console.log(event.clientX, self.slider.baseWidth,deltaSlide);
     // console.log(deltaSlide);
     // If sliding started first time and there was a distance.
     if (self.slider.sliding === 1 && deltaSlide !== 0) {

@@ -1,6 +1,9 @@
 
 body
+	position: relative
 	background-color: #929ef5
+	min-height: 100vh
+	overflow: hidden
 
 .header
 	min-height: 60px	
@@ -67,7 +70,6 @@ body
 	&__list
 		+tr(all 0.4s ease-in-out)
 		transform: translateX(0px)
-		width: 2000px	
 		margin: auto
 		overflow: hidden
 	&__item
@@ -104,7 +106,7 @@ body
 			position: absolute
 			display: block
 			background-color: transparent
-			z-index: 10000
+			z-index: 100
 			&_prev
 				left: -40px
 				+arr(19,30,#325be9,l)

@@ -1,28 +1,32 @@
 [{
       "name": "zatoichi",
       "slides": [{
-        "id": "1",  
+        "id": "0",
+        "keyName": "zatoichi",  
         "img": "zato/zato_1.jpg",
           "title": "Zatoichi_1",
           "descr": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat, ipsa.",
           "metadata": "20 September 2012"
         },
         {
-          "id": "2",
+          "id": "1",
+          "keyName": "zatoichi",
           "img": "zato/zato_2.jpg",
           "title": "Zatoichi_2",
           "descr": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat, ipsa.",
           "metadata": "20 September 2012"
         },
         {
-          "id": "3",
+          "id": "2",
+          "keyName": "zatoichi",
           "img": "zato/zato_3.jpg",
           "title": "Zatoichi_3",
           "descr": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat, ipsa.",
           "metadata": "20 September 2012"
         },
         {
-          "id": "4",
+          "id": "3",
+          "keyName": "zatoichi",
           "img": "zato/zato_4.jpg",
           "title": "Zatoichi_4",
           "descr": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat, ipsa.",
@@ -37,32 +41,48 @@
 
       "name": "kichot",
       "slides": [{
-        "id": "5",  
+        "id": "0",
+        "keyName": "kichot",  
         "img": "don/don_1.jpg",
           "title": "Don Kichot_1",
           "descr": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat, ipsa.",
-          "metadata": "20 September 2012"
+          "metadata": "20 September 2012",
+          "detailed" : {
+            "title": "Detailed Don Kichot_1"
+          }
         },
         {
-          "id": "5",
+          "id": "1",
+          "keyName": "kichot",
           "img": "don/don_2.jpg",
           "title": "Don Kichot_2",
           "descr": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat, ipsa.",
-          "metadata": "20 September 2012"
+          "metadata": "20 September 2012",
+          "detailed" : {
+            "title": "Detailed Don Kichot_2"
+          }
         },
         {
-          "id": "7",
+          "id": "2",
+          "keyName": "kichot",
           "img": "don/don_3.jpg",
           "title": "Don Kichot_3",
           "descr": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat, ipsa.",
-          "metadata": "20 September 2012"
+          "metadata": "20 September 2012",
+          "detailed" : {
+            "title": "Detailed Don Kichot_3"
+          }
         },
         {
-          "id": "8",
+          "id": "3",
+          "keyName": "kichot",
           "img": "don/don_4.jpg",
           "title": "Don Kichot_4",
           "descr": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat, ipsa.",
-          "metadata": "20 September 2012"
+          "metadata": "20 September 2012",
+          "detailed" : {
+            "title": "Detailed Don Kichot_4"
+          }
         }
 
 
