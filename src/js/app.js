@@ -70,11 +70,23 @@ class App {
     self.popup.trigger = document.querySelectorAll('.js-open-popup');
 
     self.popup.trigger.forEach(btn => {
+
+      
+
+      // remove delegated event listener from onWrapper
+      
+      ['mousedown', 'touchstart', 'mouseup', 'touchend', 'mousemove', 'touchmove'].forEach(event => {
+        btn.addEventListener(event, self._stopPropagation.bind(self));
+      });
+
       btn.addEventListener('click', function(e) {
         let configId = e.currentTarget.getAttribute('data-popup-config');
         let configName = e.currentTarget.getAttribute('data-keyname');
         self._generatePopup(configId, configName);
       });
+
+
+
     });
 
     closeTrigger.forEach(trigger => {
@@ -84,6 +96,11 @@ class App {
     });
 
   
+  }
+
+
+  _stopPropagation(event) {
+    event.stopPropagation();
   }
 
   _generatePopup(Id, name) {

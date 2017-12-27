@@ -219,7 +219,7 @@ export default class Popup {
 
     nextSlideTrigger.addEventListener('click', function(e) {
       
-      console.log(e.currentTarget);
+      // console.log(e.currentTarget);
       self.slider.currentItem += 1;
       self._showCurrentItem();
 
@@ -231,7 +231,7 @@ export default class Popup {
     let self = this;
     prevSlideTrigger.addEventListener('click', function(e) {
    
-      console.log(e.currentTarget);
+      // console.log(e.currentTarget);
       self.slider.currentItem -= 1;
       self._showCurrentItem();
 

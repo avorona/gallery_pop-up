@@ -125,10 +125,12 @@ export default class Slider {
     let self=this;
     let prevBtn=document.createElement('button');
     prevBtn.setAttribute('class', 'c-slide__controll c-slide__controll_prev js-prev-slide');
+    prevBtn.setAttribute('data-c-slider-controller', 'true');
     self.slider.base.appendChild(prevBtn);
 
     let nextBtn = document.createElement('button');
     nextBtn.setAttribute('class', 'c-slide__controll c-slide__controll_next js-next-slide');
+    nextBtn.setAttribute('data-c-slider-controller', 'true');
     self.slider.base.appendChild(nextBtn);
 
     this._clickToNextSlide(nextBtn);
@@ -140,10 +142,14 @@ export default class Slider {
   //
   _clickToNextSlide(nextSlideTrigger) {
     let self = this;
+   
 
     nextSlideTrigger.addEventListener('click', function(e) {
+     
       self.slider.currentSlide += 1;
       self._slide(e);
+      self._slideEnd(e);
+     
     });
    
   }
@@ -151,8 +157,11 @@ export default class Slider {
   _clickToPrevSlide(prevSlideTrigger) {
     let self=this;
     prevSlideTrigger.addEventListener('click', function(e) {
+     
       self.slider.currentSlide -= 1;
       self._slide(e);
+      self._slideEnd(e);
+     
     });
   }
 
@@ -197,10 +206,14 @@ export default class Slider {
     if (event.touches)
       event = event.touches[0];
     // If sliding not started yet store current touch position to calculate distance in future.
+   
     if (self.slider.sliding === 0) {
+     
       self.slider.sliding = 1; // Status 1 = slide started.
       self.slider.startClientX = event.clientX;
     }
+    
+ 
   }
   /** Occurs when image is being slide. **/
   _slide(event) {
@@ -214,9 +227,15 @@ export default class Slider {
 
     // Distance of slide.
     let deltaSlide;
-    if (event.type === 'click') {
+ 
+    function isItCloseBtn(e) {
+      return e.currentTarget.getAttribute('data-c-slider-controller');
+    } 
+
+
+    if (event.type === 'click' && isItCloseBtn(event)) {
       self.slider.sliding = 1; // Status 1 = slide started.
-      self.slider.startClientX = event.clientX;
+      // self.slider.startClientX = event.clientX;
       
       if (event.clientX > self.slider.baseWidth) {
         
@@ -226,6 +245,7 @@ export default class Slider {
       }
     
     } else {
+      
       deltaSlide = event.clientX - self.slider.startClientX;
     }
 
@@ -234,11 +254,12 @@ export default class Slider {
     if (self.slider.sliding === 1 && deltaSlide !== 0) {
       self.slider.sliding = 2; // Set status to 'actually moving'
       self.slider.startPixelOffset = self.slider.pixelOffset; // Store current offset
-
+      
     }
 
     //  When user move image
-    if (self.slider.sliding === 2) {
+    if (self.slider.sliding === 2 ) {
+     
       // Means that user slide 1 pixel for every 1 pixel of mouse movement.
       let touchPixelRatio = 1;
       // Check for user doesn't slide out of boundaries
