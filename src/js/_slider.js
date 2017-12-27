@@ -15,7 +15,7 @@ export default class Slider {
       itemWidth:0,
       gap:0,
       itemVisible:2,
-
+      asd
       listWidth:0,
       currentSlide: 0,
       sliding: 0,
