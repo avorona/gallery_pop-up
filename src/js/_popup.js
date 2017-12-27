@@ -38,10 +38,10 @@ export default class Popup {
   _generatePopup() {
 
     let popup=document.createElement('div');
-    popup.setAttribute('class', 'c-popup');
+    popup.setAttribute('class', 'c-popup js-close-popup');
 
     let content = document.createElement('div');
-    content.setAttribute('class', 'c-popup__content');
+    content.setAttribute('class', 'c-popup__content js-stop-propagation');
 
     popup.appendChild(content);
     BODY.appendChild(popup);
@@ -99,20 +99,21 @@ export default class Popup {
       let itemInner = microTemplating(itemTemplate, thisItemData);
       item.innerHTML = itemInner; 
       list.appendChild(item);
-      // self.slider.items.push(item);
+     
 
     });
 
 
     self._showCurrentItem();
-
-
-   
-
     sliderWrap.appendChild(list);
     self.popupContent.appendChild(slider);
 
     self._generateNav();
+    self._generateClose();
+    setTimeout(() => {
+      self._generateCounter();
+    }, 500);
+    
 
   }
 
@@ -125,11 +126,12 @@ export default class Popup {
     });
 
     if (this.slider.currentItem<0) {  
+      
       this.slider.currentItem = itemLength - 1;
     } else if (this.slider.currentItem >= itemLength) { 
       this.slider.currentItem=0;    
     }
-
+ 
     this.slider.items[ this.slider.currentItem].classList.add('is-active');
 
   }
@@ -140,11 +142,11 @@ export default class Popup {
     let self = this;
 
     let prevBtn = document.createElement('button');
-    prevBtn.setAttribute('class', 'c-popup__controll c-popup__controll_prev js-prev-detailed-slide');
+    prevBtn.setAttribute('class', 'c-popup__controll c-popup__controll_prev js-stop-propagation js-prev-detailed-slide');
     self.popupWindow.appendChild(prevBtn);
 
     let nextBtn = document.createElement('button');
-    nextBtn.setAttribute('class', 'c-popup__controll c-popup__controll_next js-next-detailed-slide');
+    nextBtn.setAttribute('class', 'c-popup__controll c-popup__controll_next js-stop-propagation js-next-detailed-slide');
     self.popupWindow.appendChild(nextBtn);
 
     this._clickToNextSlide(nextBtn);
@@ -152,12 +154,72 @@ export default class Popup {
 
   }
 
+  _generateClose() {
+    let self=this;
+    let wrapper=self.popupContent;
+    
+    let closeBtn=document.createElement('div');
+    closeBtn.setAttribute('class', 'popup-slider__close close-btn js-close-popup');
+    closeBtn.innerHTML ='🎅';
+    wrapper.appendChild(closeBtn);
 
-  //
+    self.__stopPropagation();
+    self.__bindCloseOnClick();
+    
+
+  }
+
+  __bindCloseOnClick() {
+
+    let self=this;
+    let closeBtn =[].slice.call(document.querySelectorAll('.js-close-popup'));
+
+    closeBtn.forEach(btn => {
+      btn.addEventListener('click', function() {
+        self.kill();
+      });
+    });
+
+  }
+
+  __stopPropagation() {
+
+    let stop = [].slice.call(document.querySelectorAll('.js-stop-propagation'));
+    stop.forEach(stop => {
+      stop.addEventListener('click', function(e) {
+        e.stopPropagation();
+      });
+    });
+
+  }
+
+  
+  _generateCounter() {
+
+    const counterWrapper = document.querySelectorAll('.js-slide-counter');
+    let self=this;
+    
+    let total=this.slider.items.length;
+
+    
+    counterWrapper.forEach(counter => {
+      let current = +counter.getAttribute('data-counter-id')+1;
+      counter.innerHTML = `<span>${current}</span> / <span> ${total} </span>`;
+    });
+
+    
+    
+
+  }
+
+
+
   _clickToNextSlide(nextSlideTrigger) {
     let self = this;
 
     nextSlideTrigger.addEventListener('click', function(e) {
+      
+      console.log(e.currentTarget);
       self.slider.currentItem += 1;
       self._showCurrentItem();
 
@@ -168,10 +230,12 @@ export default class Popup {
   _clickToPrevSlide(prevSlideTrigger) {
     let self = this;
     prevSlideTrigger.addEventListener('click', function(e) {
+   
+      console.log(e.currentTarget);
       self.slider.currentItem -= 1;
       self._showCurrentItem();
 
-    });
+    }); 
   }
 
 

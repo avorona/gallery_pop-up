@@ -21,28 +21,27 @@
 
 {% endraw %}
 
-
- {% raw %}
+{% raw %}
 
 <script type="text/html" id="popupSliderTemplate">
-  <div class="popup-slider">
-
-    <div class="popup-slider__img" style="background-image: url(img/{{img}});"></div>
-    <div class="popup-slider__inner">
-      <h3 class="popup-slider__heading">{{title}}</h3>
-      <div class="popup-slider__descr">
-        <p>{{descr}}</p>
+  <div class="popup-slide-item">
+    <div class="popup-slide-item__left">
+      <h3 class="popup-slide-item__heading">{{detailed.title}}</h3>
+      <div class="popup-slide-item__descr">
+        <p>{{detailed.text1}} {{keyName}}</p>
+        <a class="popup-slide-item__link" href="{{detailed.source}}">{{detailed.text2}} </a>
       </div>
-      <div class="popup-slider__date ">
+      <div class="popup-slide-item__date ">
         <p>{{metadata}}</p>
       </div>
     </div>
-    <div class="popup-slider__footer ">
-      <button class="show-more-btn js-close-popup" data-popup-config="{{id}}" data-keyName="{{keyName}}"> More</button>
-    </div>
+    <div class="popup-slide-item__right">
     
+      <div class="popup-slide-item__img" style="background-image: url({{detailed.img}});" alt="{{detailed.imgAlt}}"></div>
+      <div class="popup-slide-item__count-box js-slide-counter" data-counter-id="{{id}}">
+      </div>
+    </div>
   </div>
 </script>
-
 
 {% endraw %}

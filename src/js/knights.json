@@ -1,96 +1,148 @@
 [{
-      "name": "zatoichi",
-      "slides": [{
+    "name": "zatoichi",
+    "slides": [{
         "id": "0",
-        "keyName": "zatoichi",  
+        "keyName": "zatoichi",
         "img": "zato/zato_1.jpg",
-          "title": "Zatoichi_1",
-          "descr": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat, ipsa.",
-          "metadata": "20 September 2012"
-        },
-        {
-          "id": "1",
-          "keyName": "zatoichi",
-          "img": "zato/zato_2.jpg",
-          "title": "Zatoichi_2",
-          "descr": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat, ipsa.",
-          "metadata": "20 September 2012"
-        },
-        {
-          "id": "2",
-          "keyName": "zatoichi",
-          "img": "zato/zato_3.jpg",
-          "title": "Zatoichi_3",
-          "descr": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat, ipsa.",
-          "metadata": "20 September 2012"
-        },
-        {
-          "id": "3",
-          "keyName": "zatoichi",
-          "img": "zato/zato_4.jpg",
-          "title": "Zatoichi_4",
-          "descr": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat, ipsa.",
-          "metadata": "20 September 2012"
+        "title": "Zatoichi_1",
+        "descr": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat, ipsa.",
+        "metadata": "20 September 2012",
+        "detailed": {
+          "title": "Detailed Zatoichi_1",
+          "img": "http://fillmurray.com/g/300/450",
+          "imgAlt": "Bill Murray, as always",
+          "text1": "Bill Murray could play",
+          "text2": "Pluto's a planet. God, Grandpa, you're such a dick. I'd like to order one large sofa chair with extra chair please. high chair, no no no recliner... and wheelchair on half. My name is Slip- Slippery Stair. I'll take ya down there for 25 shmeckels!",
+          "source": "http://loremricksum.com"
         }
+      },
+      {
+        "id": "1",
+        "keyName": "zatoichi",
+        "img": "zato/zato_2.jpg",
+        "title": "Zatoichi_2",
+        "descr": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat, ipsa.",
+        "metadata": "20 September 2012",
+        "detailed": {
+          "title": "Detailed Zatoichi_2",
+          "img": "http://fillmurray.com/g/301/451",
+          "imgAlt": "Bill Murray, as always",
+          "text1": "Bill Murray could play",
+          "text2": "Pluto's a planet. God, Grandpa, you're such a dick. I'd like to order one large sofa chair with extra chair please. high chair, no no no recliner... and wheelchair on half. My name is Slip- Slippery Stair. I'll take ya down there for 25 shmeckels!",
+          "source": "http://loremricksum.com"
+        }
+      },
+      {
+        "id": "2",
+        "keyName": "zatoichi",
+        "img": "zato/zato_3.jpg",
+        "title": "Zatoichi_3",
+        "descr": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat, ipsa.",
+        "metadata": "20 September 2012",
+        "detailed": {
+          "title": "Detailed Zatoichi_3",
+          "img": "http://fillmurray.com/g/302/452",
+          "imgAlt": "Bill Murray, as always",
+          "text1": "Bill Murray could play",
+          "text2": "Pluto's a planet. God, Grandpa, you're such a dick. I'd like to order one large sofa chair with extra chair please. high chair, no no no recliner... and wheelchair on half. My name is Slip- Slippery Stair. I'll take ya down there for 25 shmeckels!",
+          "source": "http://loremricksum.com"
+        }
+      },
+      {
+        "id": "3",
+        "keyName": "zatoichi",
+        "img": "zato/zato_4.jpg",
+        "title": "Zatoichi_4",
+        "descr": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat, ipsa.",
+        "metadata": "20 September 2012",
+        "detailed": {
+          "title": "Detailed Zatoichi_4",
+          "img": "http://fillmurray.com/g/303/453",
+          "imgAlt": "Bill Murray, as always",
+          "text1": "Bill Murray could play",
+          "text2": "Pluto's a planet. God, Grandpa, you're such a dick. I'd like to order one large sofa chair with extra chair please. high chair, no no no recliner... and wheelchair on half. My name is Slip- Slippery Stair. I'll take ya down there for 25 shmeckels!",
+          "source": "http://loremricksum.com"
+        }
+      }
 
-      ]
- 
+    ]
+
   },
 
   {
 
-      "name": "kichot",
-      "slides": [{
+    "name": "kichot",
+    "slides": [{
         "id": "0",
-        "keyName": "kichot",  
+        "keyName": "kichot",
         "img": "don/don_1.jpg",
-          "title": "Don Kichot_1",
-          "descr": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat, ipsa.",
-          "metadata": "20 September 2012",
-          "detailed" : {
-            "title": "Detailed Don Kichot_1"
-          }
-        },
-        {
-          "id": "1",
-          "keyName": "kichot",
-          "img": "don/don_2.jpg",
-          "title": "Don Kichot_2",
-          "descr": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat, ipsa.",
-          "metadata": "20 September 2012",
-          "detailed" : {
-            "title": "Detailed Don Kichot_2"
-          }
-        },
-        {
-          "id": "2",
-          "keyName": "kichot",
-          "img": "don/don_3.jpg",
-          "title": "Don Kichot_3",
-          "descr": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat, ipsa.",
-          "metadata": "20 September 2012",
-          "detailed" : {
-            "title": "Detailed Don Kichot_3"
-          }
-        },
-        {
-          "id": "3",
-          "keyName": "kichot",
-          "img": "don/don_4.jpg",
-          "title": "Don Kichot_4",
-          "descr": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat, ipsa.",
-          "metadata": "20 September 2012",
-          "detailed" : {
-            "title": "Detailed Don Kichot_4"
-          }
+        "title": "Don Kichot_1",
+        "descr": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat, ipsa.",
+        "metadata": "20 September 2012",
+        "detailed": {
+          "title": "Detailed Don Kichot_1",
+          "img": "http://fillmurray.com/g/304/454",
+          "imgAlt": "Bill Murray, as always",
+          "text1": "Bill Murray could play",
+          "text2": "Rick, is this a Saw thing? Are you seriously Sawing the Vindicators? Listen to your sister Morty; to live is to risk it all; otherwise you're just an inert chunk of randomly assembled molecules drifting wherever the universe blows you. Oh, I'm sorry, Jerry, I didn't see you there, how much of that did you hear? God, Grandpa, you're such a dick. Haha god-damn!",
+          "source": "http://loremricksum.com"
         }
+      },
+      {
+        "id": "1",
+        "keyName": "kichot",
+        "img": "don/don_2.jpg",
+        "title": "Don Kichot_2",
+        "descr": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat, ipsa.",
+        "metadata": "20 September 2012",
+        "detailed": {
+          "title": "Detailed Don Kichot_2",
+          "img": "http://fillmurray.com/g/305/455",
+          "imgAlt": "Bill Murray, as always",
+          "text1": "Bill Murray could play",
+          "text2": "Rick, is this a Saw thing? Are you seriously Sawing the Vindicators? Listen to your sister Morty; to live is to risk it all; otherwise you're just an inert chunk of randomly assembled molecules drifting wherever the universe blows you. Oh, I'm sorry, Jerry, I didn't see you there, how much of that did you hear? God, Grandpa, you're such a dick. Haha god-damn!",
+          "source": "http://loremricksum.com"
+        }
+      },
+      {
+        "id": "2",
+        "keyName": "kichot",
+        "img": "don/don_3.jpg",
+        "title": "Don Kichot_3",
+        "descr": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat, ipsa.",
+        "metadata": "20 September 2012",
+        "detailed": {
+          "title": "Detailed Don Kichot_3",
+          "img": "http://fillmurray.com/g/306/456",
+          "imgAlt": "Bill Murray, as always",
+          "text1": "Bill Murray could play",
+          "text2": "Rick, is this a Saw thing? Are you seriously Sawing the Vindicators? Listen to your sister Morty; to live is to risk it all; otherwise you're just an inert chunk of randomly assembled molecules drifting wherever the universe blows you. Oh, I'm sorry, Jerry, I didn't see you there, how much of that did you hear? God, Grandpa, you're such a dick. Haha god-damn!",
+          "source": "http://loremricksum.com"
+        }
+      },
+      {
+        "id": "3",
+        "keyName": "kichot",
+        "img": "don/don_4.jpg",
+        "title": "Don Kichot_4",
+        "descr": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat, ipsa.",
+        "metadata": "20 September 2012",
+        "detailed": {
+          "title": "Detailed Don Kichot_4",
+          "img": "http://fillmurray.com/g/307/457",
+          "imgAlt": "Bill Murray, as always",
+          "text1": "Bill Murray could play",
+          "text2": "Rick, is this a Saw thing? Are you seriously Sawing the Vindicators? Listen to your sister Morty; to live is to risk it all; otherwise you're just an inert chunk of randomly assembled molecules drifting wherever the universe blows you. Oh, I'm sorry, Jerry, I didn't see you there, how much of that did you hear? God, Grandpa, you're such a dick. Haha god-damn!",
+          "source": "http://loremricksum.com"
+        }
+      }
 
 
 
-      ]
+    ]
 
-    }
+  }
 
-  
+
 
 ]

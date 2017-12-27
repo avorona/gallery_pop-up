@@ -14,7 +14,7 @@
     position: relative
     margin: auto 
     max-width: 800px
-    padding: 25px
+    padding: 15px 20px
     width: 96%
     background-color: #f5f5f5
     border-radius: 4px
@@ -37,9 +37,11 @@
 
 
 .popup-slider
+  position: relative
+  overflow: visible
+
   &__list
-    position: relative
-    
+    position: relative 
     min-height: 600px
   &__item
     width: 100%
@@ -48,9 +50,57 @@
     display: flex
     opacity: 0;
     z-index: 101
-    +tr(opacity 100ms ease-in)
+    // +tr(opacity 500ms ease-in)
     &.is-active
       opacity: 1
       z-index: 200
-      background-color: tomato
+  &__close
+    width: 25px
+    height: 25px  
+    position: absolute
+    z-index: 201
+    top: -40px
+    right: -40px
 
+
+.close-btn
+  font-size: 30px
+  background: none
+  color: #ffffff
+  font-weight: 300
+
+.popup-slide-item
+  position: relative
+  display: flex 
+  flex-flow: row nowrap
+  justify-content: space-between  
+  &__left
+    flex: 0 0 45%
+    padding: 10px
+  &__right
+    flex: 0 0 400px
+    padding: 14px
+  &__img
+    min-height: 600px
+    +cover
+  &__heading
+    font-size: 18px
+    margin-bottom: 15px
+  &__descr
+    margin-bottom: 15px
+    font-size: 16px
+    color: #050505
+    p
+      margin-bottom: 15px
+  &__link
+    color: inherit
+    text-decoration: none
+    color: #151515
+    border-bottom: 0.5px solid #151515
+  &__count-box
+    position: absolute
+    right: 14px
+    bottom: 14px
+    background-color: #050500
+    padding: 2px 5px
+    color: #ffffff
